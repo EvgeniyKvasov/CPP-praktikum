@@ -1,7 +1,10 @@
 ﻿#include <iostream>
 #include <fmt/core.h>
+#include <cstring>
 
 using namespace std;
+
+//функции для задачи 1 (некоторые, например printArray, используются  и в последующих задачах)
 
 void inputArray(int n, int mas[]) {
 
@@ -222,8 +225,69 @@ void sortArray(int n, int mas[]) {
     }
 }
 
+//функция для задачи 2
 
-int main()
+int* max_vect(int kc, int a[], int b[]) {
+
+    int* result = new int[kc];  
+
+    for (int i = 0; i < kc; i++) {
+
+        if (a[i] > b[i]) {
+
+            result[i] = a[i];   
+        }
+        else {
+
+            result[i] = b[i];   
+        }
+    }
+
+    return result;  
+}
+
+//фукнция для задачи 3
+
+int searchTransposition(int mas[], int n, int key) {
+
+    for (int i = 0; i < n; i++) {
+
+        if (mas[i] == key) {
+
+            if (i > 0) {
+               
+                int temp = mas[i];
+
+                mas[i] = mas[i - 1];
+
+                mas[i - 1] = temp;
+
+                return i;
+            }
+            return i;
+        }
+    }
+    return -1;
+}
+
+//функция для задачи 4
+
+void calculate(char flag[], int x, int y) {
+
+    if (strncmp(flag, "-a", 2) == 0) {
+
+        fmt::print("Результат: {} + {} = {}\n", x, y, x + y);
+
+    }
+    else if (strncmp(flag, "-m", 2) == 0) {
+
+        fmt::print("Результат: {} * {} = {}\n", x, y, x * y);
+
+    }
+}
+
+
+int main(int argc, char* argv[])
 {
     system("chcp 1251");
 
@@ -273,17 +337,109 @@ int main()
 
         fmt::print("Задание 2. Возврат массива из функции\n");
 
+        int a[] = { 1,2,3,4,5,6,7,2 };
+
+        int b[] = { 7,6,5,4,3,2,1,3 };
+
+        int kc = sizeof(a) / sizeof(a[0]); 
+
+        printArray(kc, a);
+
+        printArray(kc, b);
+
+        int* c; 
+
+        c = max_vect(kc, a, b); 
+
+        fmt::print("Результат: ");
+
+        for (int i = 0;i < kc; i++) {
+
+            fmt::print("{} ", c[i]);
+
+        }
+
+        fmt::print("\n");
+
+        delete[]c; 
+
         break;
     }
     case 3: {
 
         fmt::print("Задание 3. Реализация алгоритмов поиска методом транспозиции\n");
 
+        int mas[] = { 3, 7, 2, 9, 5 };
+
+        int n = 5;
+
+        fmt::print("Массив: ");
+
+        for (int i = 0; i < n; i++) {
+
+            fmt::print("{} ", mas[i]);
+
+        }
+
+        fmt::print("\n");
+
+        int key;
+
+        fmt::print("Введите число для поиска: ");
+
+        cin >> key;
+
+        int index = searchTransposition(mas, n, key);
+
+        if (index != -1) {
+
+            fmt::print("Число {} найдено на позиции {}\n", key, index);
+
+            fmt::print("Массив после поиска: ");
+
+            for (int i = 0; i < n; i++) {
+
+                fmt::print("{} ", mas[i]);
+
+            }
+
+            fmt::print("\n");
+        }
+        else {
+
+            fmt::print("Число {} не найдено\n", key);
+        }
+
         break;
     }
     case 4: {
 
         fmt::print("Задание 4. Передача параметров в программу\n");
+
+        char flag[3];
+
+        fmt::print("Введите флаг (-a для суммы, -m для произведения): ");
+
+        cin >> flag;
+
+        if (strncmp(flag, "-a", 2) != 0 && strncmp(flag, "-m", 2) != 0) {
+
+            fmt::print("Ошибка! Флаг должен быть -a или -m\n");
+
+            break;
+        }
+
+        int x, y;
+
+        fmt::print("Введите первое число: ");
+
+        cin >> x;
+
+        fmt::print("Введите второе число: ");
+
+        cin >> y;
+
+        calculate(flag, x, y);
 
         break;
     }
