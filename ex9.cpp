@@ -76,6 +76,66 @@ public:
 
 };
 
+//исключения для класса Time
+
+class TimeError {
+
+public:
+
+    TimeError(const string& msg) : message(msg) {}
+
+    void printMessage() const { fmt::print("Ошибка: {}\n", message); }
+
+private:
+
+    string message;
+
+};
+
+class Time {
+
+public:
+
+    int h, m, s;
+
+    //нулевой конструктор
+
+    Time() : h(0), m(0), s(0) {}
+
+    //коструктор с параметрами 
+
+    //сюда добавим проверку на отрицателньые значения
+
+    Time(int hours, int minutes, int seconds) {
+
+        if (hours < 0 || minutes < 0 || seconds < 0) {
+
+            throw TimeError("часы, минуты и секунды не могут быть отрицательными!");
+
+        }
+
+        int total = hours * 3600 + minutes * 60 + seconds;
+
+        h = total / 3600;
+
+        m = (total % 3600) / 60;
+
+        s = total % 60;
+    }
+
+    void print() const {
+
+        fmt::print("{}:{}:{}\n", h, m, s);
+
+    }
+
+    Time add(const Time& t) const {
+
+        return Time(0, 0, (h * 3600 + m * 60 + s) + (t.h * 3600 + t.m * 60 + t.s));
+
+    }
+};
+
 int main()
 {
 
@@ -124,6 +184,36 @@ int main()
     case 2: {
 
         fmt::print("Задание 2. Безопасная реализация класса Time.\n");
+
+        fmt::print("Заданные времена t1 и t2:\n");
+
+        try {
+
+            const Time t1(2, 70, 90);
+
+            const Time t2(1, 30, 45);
+
+            t1.print();
+
+            t2.print();
+
+            Time t3;
+
+            t3 = t1.add(t2);
+
+            fmt::print("Сумма t1 и t2:\n");
+
+            t3.print();
+
+        }
+
+        catch (TimeError& error) {
+
+            error.printMessage();
+
+            return 1;
+
+        }
 
         break;
 
