@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="MySpace/MySpace.vcxproj" Id="f7deeaa1-fd7d-4728-b5bc-a52b1acb5c3c" />
+</Solution>
